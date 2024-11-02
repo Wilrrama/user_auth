@@ -1,7 +1,19 @@
-export const Input = ({ name, label, type, required, ...props }) => {
-  <div>
-    <div>
-      {label || name} <span>{required && "*"}</span>
-    </div>
-  </div>;
-};
+import { forwardRef } from "react";
+
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  type: string;
+  label?: string;
+}
+
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ type, label, ...rest }, ref) => {
+    return (
+      <>
+        {label ? <label>{label}</label> : null}
+        <input type={type} ref={ref} {...rest} />
+      </>
+    );
+  }
+);
+
+Input.displayName = "Input";
