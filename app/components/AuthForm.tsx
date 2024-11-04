@@ -12,11 +12,11 @@ export const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Usar o esquema de validação adequado com base no modo (login ou registro)
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(isLogin ? loginSchema : registerSchema),
   });
@@ -24,7 +24,10 @@ export const AuthForm = () => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsLoading(true);
     console.log("Form Data:", data);
-    setTimeout(() => setIsLoading(false), 1000);
+    setTimeout(() => {
+      setIsLoading(false);
+      reset();
+    }, 1000);
   };
 
   const toggleAuthMode = () => setIsLogin((prevMode) => !prevMode);
