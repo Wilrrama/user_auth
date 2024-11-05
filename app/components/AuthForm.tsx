@@ -7,10 +7,14 @@ import { Button } from "../fragments/Button";
 import { Form } from "../fragments/Form";
 import { loginSchema, registerSchema } from "../schemas/schemas";
 import { FormData } from "../types/types";
+import { useRouter } from "next/navigation";
+import { api } from "../services/api";
 
 export const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const router = useRouter();
 
   const {
     register,
@@ -21,16 +25,40 @@ export const AuthForm = () => {
     resolver: yupResolver(isLogin ? loginSchema : registerSchema),
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (formData) => {
     setIsLoading(true);
-    console.log("Form Data:", data);
-    setTimeout(() => {
+    setMsg(null);
+
+    try {
+      if (isLogin) {
+        const { data } = await api.post("/api/users/login", formData);
+
+        localStorage.setItem("@TOKEN_user", String(data.token));
+        localStorage.setItem("@USER_data", JSON.stringify(data.user));
+
+        router.replace("/dashboard");
+      } else {
+        const { data } = await api.post("/api/users/register", formData);
+        setIsLogin(true);
+        reset();
+
+        setMsg("Conta criada com sucesso! Faça login para continuar.");
+      }
+    } catch (error: any) {
+      setMsg(
+        error.response?.data?.message || "Ocorreu um erro. Tente novamente."
+      );
+      console.error("Erro:", error);
+    } finally {
       setIsLoading(false);
-      reset();
-    }, 1000);
+    }
   };
 
-  const toggleAuthMode = () => setIsLogin((prevMode) => !prevMode);
+  const toggleAuthMode = () => {
+    setIsLogin((prev) => !prev);
+    setMsg(null);
+    reset();
+  };
 
   return (
     <div className="min-h-[70vh] flex flex-col items-center p-4 bg-black text-gray-200">
@@ -38,6 +66,17 @@ export const AuthForm = () => {
         <h2 className="mt-6 text-center text-3xl font-bold text-white">
           {isLogin ? "Login" : "Criar conta"}
         </h2>
+
+        {/* Exibição de erro ou mensagem de sucesso */}
+        {msg && (
+          <div
+            className={`mt-4 p-3 rounded ${
+              msg.includes("sucesso") ? "bg-green-600" : "bg-red-600"
+            }`}
+          >
+            {msg}
+          </div>
+        )}
 
         {/* Formulário */}
         <Form onSubmit={handleSubmit(onSubmit)} className="gap-4">
