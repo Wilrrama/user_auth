@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { api } from "../services/api";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState<any>({});
+  const [users, setUsers] = useState<any[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -11,7 +13,26 @@ const Dashboard = () => {
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
-  }, []);
+
+    const token = localStorage.getItem("@TOKEN_user");
+    if (!token) {
+      router.push("/");
+    }
+
+    // Carregar dados de usuários se o usuário logado for um administrador
+    if (userData.userType === "admin") {
+      fetchUsers();
+    }
+  }, [userData.userType]);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await api.get("/api/users/getAll");
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Erro ao carregar os usuários:", error);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("@USER_data");
@@ -23,8 +44,7 @@ const Dashboard = () => {
     <div className="min-h-[70vh] bg-gray-900 flex flex-col items-center p-6 mb-5">
       <section className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-md p-8 mb-6 text-white">
         <h1 className="text-3xl font-bold mb-4">
-          Bem-vindo,
-          {userData.name || "Usuário"}
+          Bem-vindo, {userData.name || "Usuário"}
         </h1>
         <p>
           <strong>Email:</strong> {userData.email || "N/A"}
@@ -43,10 +63,42 @@ const Dashboard = () => {
         </p>
       </section>
 
-      <section className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-md p-8 mb-6 text-white">
-        <h2 className="text-2xl font-semibold mb-4">Em construção</h2>
-        <p>Esta seção será preenchida com mais funcionalidades em breve!</p>
-      </section>
+      {userData.userType === "admin" ? (
+        <section className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-md p-8 mb-6 text-white">
+          <h2 className="text-2xl font-semibold mb-4">
+            Lista de Usuários, Total = <span>{users.length}</span>
+          </h2>
+          {users.length > 0 ? (
+            <ul>
+              {users.map((user) => (
+                <li key={user.id} className="mb-2">
+                  <p>
+                    <strong>Nome:</strong> {user.name}{" "}
+                    <strong>
+                      <span>Idade:</span>
+                    </strong>{" "}
+                    <span>{user.age}</span>
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {user.email}
+                  </p>
+                  <p>
+                    <strong>Função:</strong> {user.role}
+                  </p>
+                  <hr className="my-2 border-gray-600" />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Nenhum usuário encontrado.</p>
+          )}
+        </section>
+      ) : (
+        <section className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-md p-8 mb-6 text-white">
+          <h2 className="text-2xl font-semibold mb-4">Em construção</h2>
+          <p>Esta seção será preenchida com mais funcionalidades em breve!</p>
+        </section>
+      )}
 
       <button
         onClick={handleLogout}
