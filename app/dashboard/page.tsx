@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "../services/api";
+import { Button } from "../fragments/Button";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState<any>({});
@@ -34,6 +35,16 @@ const Dashboard = () => {
     }
   };
 
+  const deleteUser = async (id: string | number) => {
+    try {
+      await api.delete(`/api/users/${id}`);
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      fetchUsers();
+    } catch (error) {
+      console.error("Erro ao excluir o usuário:", error);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("@USER_data");
     localStorage.removeItem("@TOKEN_user");
@@ -61,6 +72,11 @@ const Dashboard = () => {
         <p>
           <strong>Idade:</strong> {userData.age || "N/A"}
         </p>
+        <Button
+          type={"button"}
+          name={"Editar"}
+          className="bg-orange-600 text-white rounded-lg px-4 py-2 mt-2 hover:bg-orange-500 transition-colors"
+        />
       </section>
 
       {userData.userType === "admin" ? (
@@ -71,21 +87,34 @@ const Dashboard = () => {
           {users.length > 0 ? (
             <ul>
               {users.map((user) => (
-                <li key={user.id} className="mb-2">
-                  <p>
-                    <strong>Nome:</strong> {user.name}{" "}
-                    <strong>
-                      <span>Idade:</span>
-                    </strong>{" "}
-                    <span>{user.age}</span>
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {user.email}
-                  </p>
-                  <p>
-                    <strong>Função:</strong> {user.role}
-                  </p>
-                  <hr className="my-2 border-gray-600" />
+                <li
+                  key={user.id}
+                  className="mb-2 flex justify-between items-center"
+                >
+                  <div className="flex-1">
+                    <p>
+                      <strong>Nome:</strong> {user.name}{" "}
+                      <strong>
+                        <span>Idade: </span>
+                      </strong>
+                      <span>{user.age}</span>
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {user.email}
+                    </p>
+                    <p>
+                      <strong>Função:</strong> {user.role}
+                    </p>
+                    <hr className="my-2 border-gray-600" />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      type={"button"}
+                      name={"Excluir"}
+                      onClick={() => deleteUser(user._id)}
+                      className="bg-red-600 text-white rounded-lg px-4 py-2 mt-2 hover:bg-red-500 transition-colors"
+                    />
+                  </div>
                 </li>
               ))}
             </ul>
@@ -100,12 +129,12 @@ const Dashboard = () => {
         </section>
       )}
 
-      <button
+      <Button
+        type="button"
+        name="Sair"
         onClick={handleLogout}
         className="bg-red-600 text-white rounded-lg px-4 py-2 hover:bg-red-500 transition-colors"
-      >
-        Sair
-      </button>
+      />
     </div>
   );
 };
