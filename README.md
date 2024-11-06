@@ -111,26 +111,9 @@ export default function DashboardPage() {
 
 ## 🔍 Notas Importantes
 
-### Uso do "use client"
-
-Para componentes que necessitam de funcionalidades do lado do cliente (como hooks do React), adicione `"use client"` no topo do arquivo:
-
-```jsx
-"use client";
-import React, { useState } from "react";
-```
-
 ### Validação de Formulários
 
 O projeto utiliza `react-hook-form` em conjunto com `yup` para validação de formulários. Os schemas de validação estão localizados na pasta `schemas/`.
-
-## 🤝 Contribuindo
-
-1. Faça um fork do projeto
-2. Crie sua branch de feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
 
 ## 📝 Licença
 
