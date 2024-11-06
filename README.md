@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Projeto de Autenticação e Gerenciamento de Usuários
 
-## Getting Started
+Uma aplicação web robusta para autenticação e gerenciamento de usuários construída com Next.js, React, MongoDB e TypeScript. O projeto oferece uma interface intuitiva para login e registro, com validação de formulários avançada e suporte a rotas protegidas.
 
-First, run the development server:
+## ✨ Funcionalidades
+
+- 🔐 Sistema completo de autenticação (login/registro)
+- 📝 Validação de formulários com `react-hook-form` e `yup`
+- 🗄️ Integração com MongoDB para persistência de dados
+- 🛡️ Rotas protegidas para conteúdo autenticado
+- 🎨 Interface responsiva e moderna
+- 📱 Suporte completo a dispositivos móveis
+
+## 🚀 Tecnologias Utilizadas
+
+- Next.js
+- React
+- TypeScript
+- MongoDB
+- Mongoose
+- react-hook-form
+- yup
+- Tailwind CSS
+
+## 📋 Pré-requisitos
+
+- Node.js (versão >= 14.x.x)
+- Yarn ou npm
+- Conta no MongoDB Atlas (ou MongoDB local)
+
+## 🛠️ Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/seuusuario/seurepositorio.git
+cd seurepositorio
+```
+
+2. Instale as dependências:
+
+```bash
+npm install
+# ou
+yarn install
+```
+
+3. Configure as variáveis de ambiente:
+   - Crie um arquivo `.env` na raiz do projeto
+   - Adicione sua URI do MongoDB:
+
+```env
+MONGODB_URI=mongodb+srv://<usuario>:<senha>@cluster0.mongodb.net/<seubanco>?retryWrites=true&w=majority
+```
+
+4. Inicie o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Acesse `http://localhost:3000` no seu navegador
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Estrutura do Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+.
+├── fragments/       # Componentes reutilizáveis
+├── schemas/        # Schemas de validação Yup
+├── services/       # Configuração da API e MongoDB
+├── types/         # Definições de tipos TypeScript
+├── pages/         # Páginas do Next.js
+└── components/    # Componentes React
+```
 
-## Learn More
+## 💡 Como Usar
 
-To learn more about Next.js, take a look at the following resources:
+### Componente AuthForm
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O componente principal de autenticação pode ser implementado em qualquer página da seguinte forma:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```jsx
+import AuthForm from "../components/AuthForm";
 
-## Deploy on Vercel
+export default function Home() {
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-900">
+      <AuthForm />
+    </div>
+  );
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Rotas Protegidas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Para criar uma rota protegida, utilize o componente de proteção:
+
+```jsx
+import ProtectedRoute from "../components/ProtectedRoute";
+
+export default function DashboardPage() {
+  return (
+    <ProtectedRoute>
+      <div>Conteúdo protegido aqui</div>
+    </ProtectedRoute>
+  );
+}
+```
+
+## 🔍 Notas Importantes
+
+### Uso do "use client"
+
+Para componentes que necessitam de funcionalidades do lado do cliente (como hooks do React), adicione `"use client"` no topo do arquivo:
+
+```jsx
+"use client";
+import React, { useState } from "react";
+```
+
+### Validação de Formulários
+
+O projeto utiliza `react-hook-form` em conjunto com `yup` para validação de formulários. Os schemas de validação estão localizados na pasta `schemas/`.
+
+## 🤝 Contribuindo
+
+1. Faça um fork do projeto
+2. Crie sua branch de feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 📫 Contato
+
+Link do Projeto: [https://github.com/Wilrrama/user_auth](https://github.com/Wilrrama/user_auth)
