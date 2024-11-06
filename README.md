@@ -77,37 +77,17 @@ yarn dev
 
 ## 💡 Como Usar
 
-### Componente AuthForm
+Faça o cadastro no sistema:  
+![Tela de Cadastro](public/readme-images/register.jpeg)
 
-O componente principal de autenticação pode ser implementado em qualquer página da seguinte forma:
+Faça o login do usuário:  
+![Tela de Login](public/readme-images/login.jpeg)
 
-```jsx
-import AuthForm from "../components/AuthForm";
+Se for apenas user, recupera os dados:  
+![Tela de Usuário](public/readme-images/user.jpeg)
 
-export default function Home() {
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      <AuthForm />
-    </div>
-  );
-}
-```
-
-### Rotas Protegidas
-
-Para criar uma rota protegida, utilize o componente de proteção:
-
-```jsx
-import ProtectedRoute from "../components/ProtectedRoute";
-
-export default function DashboardPage() {
-  return (
-    <ProtectedRoute>
-      <div>Conteúdo protegido aqui</div>
-    </ProtectedRoute>
-  );
-}
-```
+Se for admin, é possível excluir e editar os usuários:  
+![Tela de Admin](public/readme-images/admin.jpeg)
 
 ## 🔍 Notas Importantes
 

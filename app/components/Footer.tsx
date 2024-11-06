@@ -6,44 +6,30 @@ export const Footer = () => {
       Feito por Wilson
       <a
         className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-        href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+        href="https://www.linkedin.com/in/wilson-alves-franchi-dos-santos-b3ba3332/"
         target="_blank"
         rel="noopener noreferrer"
       >
         <Image
           aria-hidden
-          src="https://nextjs.org/icons/file.svg"
-          alt="File icon"
-          width={16}
-          height={16}
+          src="/linkedin_icon.png"
+          alt="Linkedin"
+          width={24}
+          height={24}
         />
       </a>
       <a
         className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-        href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+        href="https://github.com/Wilrrama"
         target="_blank"
         rel="noopener noreferrer"
       >
         <Image
           aria-hidden
-          src="https://nextjs.org/icons/window.svg"
-          alt="Window icon"
-          width={16}
-          height={16}
-        />
-      </a>
-      <a
-        className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-        href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          aria-hidden
-          src="https://nextjs.org/icons/globe.svg"
-          alt="Globe icon"
-          width={16}
-          height={16}
+          src="/github-icon-2.svg"
+          alt="Github"
+          width={24}
+          height={24}
         />
       </a>
     </footer>
